@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Seeker Login</title>
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Form Container */
+        form {
+            background: #ffffff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2d72d9; /* Blue accent color */
+        }
+
+        /* Form Fields */
+        form div {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #2d72d9;
+            outline: none;
+            box-shadow: 0px 0px 4px rgba(45, 114, 217, 0.5);
+        }
+
+        /* Submit Button */
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            background-color: #2d72d9;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #1e4fa1;
+        }
+
+        /* Error Messages Styling */
+        .messages {
+            margin-bottom: 15px;
+            list-style-type: none;
+            padding: 0;
+            color: red;
+            font-size: 0.9rem;
+        }
+
+        .messages[aria-live="polite"] {
+            margin-bottom: 10px;
+        }
+
+        /* Sign-Up Link */
+        p {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        a {
+            color: #2d72d9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            form {
+                padding: 15px 20px;
+            }
+
+            button[type="submit"] {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %} <!-- Include CSRF token -->
+        <h2>Job Seeker Login</h2>
+
+        <!-- Display error messages -->
+        {% if message %}
+        <p class="error">{{ message }}</p>
+        {% endif %}
+
+        <!-- Username Input -->
+        <div>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+
+        <!-- Password Input -->
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit">Login</button>
+
+        <!-- Link to Job Seeker Sign-Up -->
+        <p>Don't have an account? <a href="{% url 'job_seeker_signup' %}">Sign up here</a></p>
+
+        <!-- Link to Forgot Password -->
+        <p><a href="{% url 'job_seeker_password_reset' %}">Forgot your password?</a></p>
+    </form>
+</body>
+</html>

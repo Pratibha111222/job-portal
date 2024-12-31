@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employer Dashboard</title>
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #007BFF; /* Blue background */
+            color: white; /* White text */
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: #0056b3; /* Darker blue for the navbar */
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Dashboard Stats */
+        .dashboard-stats {
+            margin: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            color: black; /* Black text for stats */
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-stats p {
+            font-size: 1rem;
+            margin: 10px 0;
+        }
+
+        /* Job Listing */
+        h3 {
+            margin: 20px;
+            color: white; /* White text for section titles */
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #ffffff;
+            margin: 10px 20px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        li h4 {
+            margin: 0;
+            color: #007BFF; /* Blue color for job titles */
+            flex: 1;
+        }
+
+        li p {
+            margin: 5px 0;
+        }
+
+        li form button {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        li form button:hover {
+            background-color: #5a6268;
+        }
+
+        /* Close Job Button */
+        .close-job-btn {
+            background-color: #dc3545; /* Red color for close job button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        .close-job-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* Post Job Button */
+        .post-job-btn {
+            background-color: #28a745; /* Green color for post job button */
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .post-job-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Profile Incomplete Message */
+        .profile-incomplete {
+            background-color: #ffc107;
+            color: black;
+            padding: 10px;
+            margin: 20px;
+            border-radius: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .navbar a {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            .dashboard-stats,
+            .post-job-btn {
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            li form {
+                margin-top: 10px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            li form button {
+                margin-bottom: 5px;
+                width: 100%;
+            }
+
+            .close-job-btn {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <h2>Employer Dashboard</h2>
+        <div>
+            <a href="{% url 'employer_profile' %}">Company Profile</a>
+            <a href="{% url 'jobs_posted' %}">Jobs Posted</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+    </div>
+
+    <!-- Profile Incomplete Message -->
+    {% if profile_incomplete %}
+        <div class="profile-incomplete">
+            <p>Your profile is incomplete. Please <a href="{% url 'employer_profile_edit' %}">update your profile</a>.</p>
+        </div>
+    {% endif %}
+
+    <!-- Dashboard Stats -->
+    <div class="dashboard-stats">
+        <p><strong>Total Jobs Posted:</strong> {{ total_jobs }}</p>
+        <p><strong>Pending Applications:</strong> {{ pending_applications }}</p>
+    </div>
+
+    <!-- Post Job Button -->
+    <a href="{% url 'post_job' %}"><button class="post-job-btn">Post a Job</button></a>
+
+    <!-- Job List -->
+    <h3>Your Active Jobs</h3>
+    {% if jobs %}
+        <ul>
+            {% for job in jobs %}
+                <li>
+                    <h4>{{ job.title }}</h4>
+                    <p>{{ job.location }} - {{ job.salary }}</p>
+                    <form method="GET" action="{% url 'view_applications' job.id %}">
+                        <button type="submit">View Applications</button>
+                    </form>
+                    {% if job.is_active %}
+                        <form method="POST" action="{% url 'close_job' job.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="close-job-btn">Close Job</button>
+                        </form>
+                    {% else %}
+                        <button class="close-job-btn" disabled>Job Closed</button>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No active jobs posted yet.</p>
+    {% endif %}
+    
+</body>
+</html>

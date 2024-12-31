@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employer Profile</title>
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .profile-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #007BFF;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        p strong {
+            color: #007BFF;
+        }
+
+        img {
+            display: block;
+            max-width: 100px;
+            margin: 20px auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Buttons */
+        a {
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            background-color: #007BFF;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .button-container a {
+                margin: 10px 0;
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h1>{{ employer.company_name }}</h1>
+        <p><strong>Location:</strong> {{ employer.location }}</p>
+        <p><strong>Industry:</strong> {{ employer.industry }}</p>
+        <p><strong>Contact Email:</strong> {{ employer.contact_email }}</p>
+        <p><strong>Contact Phone:</strong> {{ employer.contact_phone }}</p>
+        <p><strong>Company Address:</strong> {{ employer.company_address }}</p>
+        <p><strong>Bio:</strong> {{ employer.bio }}</p>
+        
+        {% if employer.company_logo %}
+            <img src="{{ employer.company_logo.url }}" alt="{{ employer.company_name }}">
+        {% endif %}
+
+        <div class="button-container">
+            <a href="{% url 'edit_company_profile' %}">Edit Company Profile</a>
+            <a href="{% url 'employer_dashboard' %}">Go to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

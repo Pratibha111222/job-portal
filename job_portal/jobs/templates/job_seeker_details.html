@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ job_seeker.first_name }} {{ job_seeker.last_name }} - Details</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        /* Title Styling */
+        h2 {
+            font-size: 2rem;
+            color: #2d72d9;
+            margin-bottom: 20px;
+        }
+
+        /* Information Section */
+        .info-section {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .info-section p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .info-section strong {
+            font-weight: bold;
+            color: #555;
+        }
+
+        /* Links Styling */
+        a {
+            color: #2d72d9;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Back Button */
+        .btn-back {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #2d72d9;
+            color: white;
+            font-size: 1rem;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-back:hover {
+            background-color: #1e4fa1;
+        }
+    </style>
+</head>
+<body>
+    <h2>{{ job_seeker.first_name }} {{ job_seeker.last_name }}</h2>
+
+    <div class="info-section">
+        <p><strong>Location:</strong> {{ job_seeker.location }}</p>
+        <p><strong>Skills:</strong> {{ job_seeker.skills }}</p>
+        <p><strong>Experience:</strong> {{ job_seeker.experience }}</p>
+        <p><strong>Education:</strong> {{ job_seeker.education }}</p>
+        <p><strong>LinkedIn:</strong> <a href="{{ job_seeker.linkedin_url }}" target="_blank">{{ job_seeker.linkedin_url }}</a></p>
+        <p><strong>Portfolio:</strong> <a href="{{ job_seeker.portfolio_url }}" target="_blank">{{ job_seeker.portfolio_url }}</a></p>
+        <p><strong>Certifications:</strong> {{ job_seeker.certifications }}</p>
+        <p><strong>Languages:</strong> {{ job_seeker.languages }}</p>
+
+        {% if job_seeker.resume %}
+            <p><strong>Resume:</strong> <a href="{{ job_seeker.resume.url }}" download>Download Resume</a></p>
+        {% else %}
+            <p>No resume uploaded.</p>
+        {% endif %}
+    </div>
+
+    {% if job_id %}
+        <a href="{% url 'view_applications' job_id %}" class="btn-back">Back to Applications</a>
+    {% else %}
+        <a href="{% url 'employer_dashboard' %}" class="btn-back">Back to Dashboard</a>
+    {% endif %}
+</body>
+</html>

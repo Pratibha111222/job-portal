@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- Basic CSS Styles -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        #subscription_form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        label {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            background-color: #f9f9f9;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        #pay-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        #pay-button:hover {
+            background-color: #218838;
+        }
+
+        #back-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #back-button:hover {
+            background-color: #0056b3;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Complete Payment</h1>
+
+        <!-- Subscription Duration Dropdown -->
+        <form method="POST" id="subscription_form">
+            {% csrf_token %}
+            
+            <label for="subscription_duration">Select Subscription Duration:</label>
+            <select id="subscription_duration" name="duration">
+                <option value="1" {% if subscription_duration == '1' %}selected{% endif %}>1 Month</option>
+                <option value="3" {% if subscription_duration == '3' %}selected{% endif %}>3 Months</option>
+                <option value="6" {% if subscription_duration == '6' %}selected{% endif %}>6 Months</option>
+                <option value="12" {% if subscription_duration == '12' %}selected{% endif %}>1 Year</option>
+                <option value="999" {% if subscription_duration == '999' %}selected{% endif %}>Lifetime</option>
+            </select>
+        
+            <p>Total Price: ₹<span id="total_price">999</span></p>  <!-- Display total price here -->
+        
+            <!-- Payment Button -->
+            <button type="button" id="pay-button">Pay ₹<span id="pay-amount">999</span></button>
+        </form>
+        
+        <!-- Go Back Button -->
+        <button type="button" id="back-button" onclick="window.location.href='{% url 'subscriptionpage' %}'">Go Back</button>
+    </div>
+
+    <script>
+        // Pricing details (in paise)
+        var pricePerMonth = 999; // ₹999 in paise
+        var pricePerYear = 99900 * 12; // ₹999 * 12 in paise for 1 year
+        var lifetimePrice = 99900 * 999; // Lifetime subscription in paise
+
+        // Initialize the amount as per the context
+        var totalAmount = {{ amount }} * 100; // Convert to paise initially
+        
+        // Update the displayed price in ₹ on page load
+        document.getElementById('total_price').textContent = totalAmount / 100;
+        document.getElementById('pay-amount').textContent = totalAmount / 100;
+
+        // Function to update price based on selected duration
+        document.getElementById('subscription_duration').addEventListener('change', function() {
+            var duration = this.value;
+            totalAmount = 0;
+
+            // Calculate total amount based on selected subscription duration
+            if (duration == 1) {
+                totalAmount = pricePerMonth;
+            } else if (duration == 3) {
+                totalAmount = pricePerMonth * 3;
+            } else if (duration == 6) {
+                totalAmount = pricePerMonth * 6;
+            } else if (duration == 12) {
+                totalAmount = pricePerYear;
+            } else if (duration == 999) {
+                totalAmount = lifetimePrice;
+            }
+
+            // Update total price displayed in ₹
+            document.getElementById('total_price').textContent = totalAmount / 100;
+            document.getElementById('pay-amount').textContent = totalAmount / 100;
+
+            // Update Razorpay options with the new amount (in paise)
+            options.amount = totalAmount;  // Razorpay expects amount in paise
+        });
+
+        var options = {
+            "key": "{{ razorpay_key }}", // Razorpay Key ID
+            "amount": totalAmount, // Default amount from context (in paise)
+            "currency": "INR",
+            "name": "{{ name }}",
+            "description": "Subscription Payment",
+            "order_id": "{{ order_id }}", // Razorpay Order ID
+            "handler": function (response) {
+                alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+                // Redirect to subscription page after payment success
+                window.location.href = "{% url 'subscriptionpage' %}";
+            },
+            "prefill": {
+                "name": "{{ name }}",
+                "email": "{{ email }}",
+                "contact": "{{ contact }}"
+            }
+        };
+
+        var rzp1 = new Razorpay(options);
+
+        document.getElementById('pay-button').onclick = function(e) {
+            // Open Razorpay with the updated options
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
+</body>
+</html>

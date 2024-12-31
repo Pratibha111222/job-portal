@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs Posted</title>
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 20px;
+        }
+
+        /* Page Title */
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007BFF;
+        }
+
+        /* Jobs List */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #ffffff;
+            margin: 10px auto;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+        }
+
+        li strong {
+            font-size: 1.2rem;
+            color: #007BFF;
+        }
+
+        li a {
+            color: #28a745;
+            text-decoration: none;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Post Job Button */
+        .post-job-link {
+            display: block;
+            text-align: center;
+            margin: 20px auto;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            max-width: 200px;
+        }
+
+        .post-job-link:hover {
+            background-color: #0056b3;
+        }
+
+        /* Back to Dashboard Link */
+        .back-link {
+            display: block;
+            text-align: center;
+            margin: 20px auto;
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            li {
+                padding: 10px;
+                margin: 10px;
+            }
+
+            .post-job-link {
+                font-size: 14px;
+            }
+
+            li a {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>Jobs Posted</h2>
+
+    
+    
+
+    <!-- Jobs List -->
+    <ul>
+        {% for job in jobs %}
+            <li>
+                <strong>{{ job.title }}</strong> - {{ job.location }} - {{ job.salary }}
+                <br>
+                Deadline: {{ job.deadline }}
+                <br>
+                <!-- Edit Job Button -->
+                <a href="{% url 'edit_job' job.id %}">Edit Job</a>
+                <!-- View Applications Button -->
+                <a href="{% url 'view_applications' job.id %}">View Applications</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Back to Dashboard Link -->
+    <a href="{% url 'employer_dashboard' %}" class="back-link">Back to Dashboard</a>
+</body>
+</html>

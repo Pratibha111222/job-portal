@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company.company_name }}</title>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /* Company Card Styling */
+        .company-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .company-card img {
+            max-width: 150px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .company-card h2 {
+            margin: 0 0 15px;
+            font-size: 1.8rem;
+            color: #2d72d9;
+        }
+
+        .company-card p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+
+        .company-card strong {
+            font-weight: bold;
+        }
+
+        /* Job Listings Styling */
+        .job-listing {
+            margin-top: 30px;
+        }
+
+        .job-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+        }
+
+        .job-item h3 {
+            margin: 0 0 10px;
+            color: #333;
+        }
+
+        .job-item p {
+            margin: 5px 0;
+        }
+
+        .job-item a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .job-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Back Button Styling */
+        .btn-applied {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #2d72d9;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-applied:hover {
+            background-color: #1e4fa1;
+        }
+
+        /* Responsive Design for Smaller Screens */
+        @media (max-width: 768px) {
+            .company-card {
+                padding: 15px;
+            }
+
+            .company-card h2 {
+                font-size: 1.5rem;
+            }
+
+            .job-item {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="company-card">
+        {% if company.company_logo %}
+            <img src="{{ company.company_logo.url }}" alt="Company Logo">
+        {% endif %}
+        <h2>{{ company.company_name }}</h2>
+        <p><strong>Email:</strong> {{ company.contact_email|default:"Not available" }}</p>
+        <p><strong>Address:</strong> {{ company.company_address|default:"Not available" }}</p>
+        <p><strong>Phone:</strong> {{ company.contact_phone|default:"Not available" }}</p>
+        <p><strong>Description:</strong> {{ company.bio|default:"Not available" }}</p>
+        <p><strong>Industry:</strong> {{ company.industry|default:"Not available" }}</p>
+    </div>
+
+    <!-- Back Button -->
+    <a href="{% url 'applied_jobs' %}" class="btn-applied">Back</a>
+</body>
+</html>

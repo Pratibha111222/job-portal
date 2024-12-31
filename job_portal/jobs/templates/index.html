@@ -1,0 +1,275 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Portal</title>
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #2d72d9; /* Blue background color */
+            padding: 15px 30px; /* Add padding for spacing */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky; /* Make navbar stick to the top */
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* Navbar Logo */
+        .navbar .logo {
+            height: 60px; /* Set logo height */
+        }
+
+        /* Navbar Heading */
+        .navbar h1 {
+            color: white; /* White text for contrast */
+            font-size: 1.5rem; /* Adjust heading size */
+            margin: 0 20px;
+        }
+
+        /* Navbar Links */
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+            margin: 0 10px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .navbar a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Add spacing between navbar and search bar */
+        .search-container {
+            margin-top: 20px;
+            background: url("{% static 'images/img5.avif' %}") no-repeat center center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            color: white;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .search-container h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .search-bar {
+            margin-top: 20px;
+            width: 50%;
+            display: flex;
+            border-radius: 25px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            border-radius: 25px 0 0 25px;
+            background-color: transparent;
+            color: #333;
+        }
+
+        .search-bar input::placeholder {
+            color: #666;
+        }
+
+        .search-bar button {
+            padding: 0 20px;
+            background: #2d72d9;
+            color: #fff;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 0 25px 25px 0;
+            transition: background-color 0.3s;
+        }
+
+        .search-bar button:hover {
+            background: #1e4fa1;
+        }
+
+        /* Add Text Styling */
+        .add-text {
+            text-align: center;
+            padding: 40px 20px;
+            background: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 30px auto;
+            width: 80%;
+            border-radius: 15px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .add-text h2 {
+            color: #2d72d9;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .add-text p {
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Container Styling */
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer Styling */
+        footer {
+            background: #2d72d9;
+            color: white;
+            padding: 30px 20px;
+            margin-top: 20px;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .footer-section {
+            flex: 1;
+            margin: 10px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ffcc00; /* Highlight color on hover */
+        }
+
+        .social-icons a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <img src="{% static 'images/img1234.jpg' %}" alt="Job Portal Logo" class="logo">
+        <h1>Welcome to the Job Portal</h1>
+        <div>
+            <a href="{% url 'jobseeker_login' %}">Job Seeker Login</a>
+            <a href="{% url 'employer_login' %}">Company Login</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="search-container">
+        <h1>Your Career Starts Here</h1>
+        <form action="/" method="GET" class="search-bar">
+            <input type="text" name="search" placeholder="Search for jobs or companies" value="{{ search_query|default:'' }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Add Text Section -->
+    <div class="add-text">
+        <h2>Your Career Starts Here</h2>
+        <p>
+            Discover exciting opportunities, connect with top employers, and take the next step in your career journey. 
+            Whether you're seeking your dream job or looking to hire exceptional talent, we've got you covered.
+        </p>
+    </div>
+
+    <!-- Image Container -->
+    <div class="container">
+        <img src="{% static 'images/img6.jpg' %}" alt="Example Image 1" />
+        <img src="{% static 'images/img1.jpg' %}" alt="Example Image 2" />
+        <img src="{% static 'images/img2.jpg' %}" alt="Example Image 3" />
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: info@jobportal.com</p>
+                <p>Phone: +123 456 789</p>
+                <p>Address: 123 Job Portal St., City, Country</p>
+            </div>
+            <div class="footer-section social-icons">
+                <h3>Follow Us</h3>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

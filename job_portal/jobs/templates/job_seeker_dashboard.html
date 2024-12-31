@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Seeker Dashboard</title>
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Search Box Styling */
+        .search-box {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .search-box input[type="text"] {
+            padding: 10px;
+            width: calc(100% - 120px);
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .search-box button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+
+        .search-box button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Main Container Styling */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 30px;
+        }
+
+        /* Filter Sidebar */
+        .filter-box {
+            flex: 1;
+            margin-right: 20px;
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-box form {
+            margin-bottom: 20px;
+        }
+
+        .filter-box select,
+        .filter-box input[type="number"] {
+            padding: 10px;
+            margin-bottom: 15px;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .filter-box button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .filter-box button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Job Listings */
+        .job-listings {
+            flex: 3;
+        }
+
+        .job-card {
+            background-color: #ffffff;
+            margin: 10px 0;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .job-header {
+            display: flex;
+            align-items: center;
+        }
+
+        .job-header h4 {
+            color: #007BFF;
+            margin: 0;
+            font-size: 1.2rem;
+            flex: 1;
+        }
+
+        .job-header img {
+            max-width: 50px;
+            height: auto;
+            margin-right: 15px;
+            border-radius: 5px;
+        }
+
+        .job-meta {
+            margin: 10px 0;
+            font-size: 0.9rem;
+            color: #666;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .job-meta span {
+            display: inline-block;
+            background-color: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+
+        .job-description {
+            margin: 15px 0;
+        }
+
+        .job-actions {
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        .job-actions button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .job-actions button:hover {
+            background-color: #218838;
+        }
+
+        /* Back to Dashboard Button */
+        .back-button {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .back-button button {
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .back-button button:hover {
+            background-color: #c82333;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .filter-box {
+                margin-right: 0;
+                width: 100%;
+            }
+
+            .job-listings {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <h2>Welcome {{ job_seeker.first_name }}</h2>
+        <div>
+            <a href="{% url 'job_seeker_profile' %}">Profile</a>
+            <a href="{% url 'subscriptionpage' %}">
+                {% if has_premium_subscription %}
+                  You Are Member
+                {% else %}
+                    Buy Subscription
+                {% endif %}
+            </a>
+            <a href="{% url 'applied_jobs' %}">Applied Jobs</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-box">
+        <form method="GET" action="{% url 'job_seeker_dashboard' %}">
+            <input type="text" name="search" placeholder="Search jobs by title, location..." value="{{ request.GET.search }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Back to Dashboard Button -->
+    {% if filters_applied %}
+        <div class="back-button">
+            <a href="{% url 'job_seeker_dashboard' %}" style="text-decoration: none;">
+                <button>Back to Dashboard</button>
+            </a>
+        </div>
+    {% endif %}
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Filter Sidebar -->
+        <div class="filter-box">
+            <form method="GET" action="{% url 'job_seeker_dashboard' %}">
+                <select name="industry">
+                    <option value="">-- Select Industry --</option>
+                    {% for choice in industry_choices %}
+                        <option value="{{ choice }}" {% if request.GET.industry == choice %}selected{% endif %}>{{ choice }}</option>
+                    {% endfor %}
+                </select>
+
+                <input type="number" name="min_experience" placeholder="Min Experience (Years)" value="{{ request.GET.min_experience }}">
+                <input type="number" name="max_experience" placeholder="Max Experience (Years)" value="{{ request.GET.max_experience }}">
+                <input type="number" name="min_salary" placeholder="Min Salary" value="{{ request.GET.min_salary }}">
+                <input type="number" name="max_salary" placeholder="Max Salary" value="{{ request.GET.max_salary }}">
+
+                <select name="job_mode">
+                    <option value="">-- Select Work Mode --</option>
+                    <option value="Remote" {% if request.GET.job_mode == 'Remote' %}selected{% endif %}>Remote</option>
+                    <option value="Work from Office" {% if request.GET.job_mode == 'Work from Office' %}selected{% endif %}>Work from Office</option>
+                    <option value="Hybrid" {% if request.GET.job_mode == 'Hybrid' %}selected{% endif %}>Hybrid</option>
+                </select>
+
+                <button type="submit">Filter</button>
+            </form>
+        </div>
+
+        <!-- Job Listings -->
+        <div class="job-listings">
+            <h3>Available Jobs</h3>
+            <ul>
+                {% for job in jobs %}
+                    <li class="job-card">
+                        <div class="job-header">
+                            {% if job.company.company_logo %}
+                                <img src="{{ job.company.company_logo.url }}" alt="{{ job.company.company_name }} Logo">
+                            {% endif %}
+                            <h4>{{ job.title }}</h4>
+                            <p><strong>{{ job.company.company_name }}</strong></p>
+                        </div>
+                        <div class="job-meta">
+                            <span><strong>Experience:</strong> 
+                                 
+                                        {% if job.min_experience and job.max_experience %}
+                                            {{ job.min_experience }} - {{ job.max_experience }} years
+                                        {% elif job.min_experience %}
+                                            {{ job.min_experience }}+ years
+                                        {% elif job.max_experience %}
+                                            Up to {{ job.max_experience }} years
+                                        {% else %}
+                                            No experience required
+                                        {% endif %}
+                                     
+                            </span>
+                            <span><strong>Salary:</strong> 
+                                {% if job.min_salary and job.max_salary %}
+                                    ₹{{ job.min_salary }} - ₹{{ job.max_salary }}
+                                {% elif job.min_salary %}
+                                    Starting at ₹{{ job.min_salary }}
+                                {% elif job.max_salary %}
+                                    Up to ₹{{ job.max_salary }}
+                                {% else %}
+                                    Not disclosed
+                                {% endif %}
+                            </span>
+                            <span><strong>Location:</strong> {{ job.location }}</span>
+                            <span><strong>Work Mode:</strong> {{ job.job_mode }}</span>
+                            <span><strong>Vacancies:</strong> {{ job.vacancies }}</span>
+                        </div>
+                        <div class="job-description">
+                            <p>{{ job.description|truncatewords:20 }}</p>
+                        </div>
+                        <div class="job-actions">
+                            <form method="GET" action="{% url 'job_detail' job.id %}">
+                                <button type="submit">More Details</button>
+                            </form>
+                        </div>
+                    </li>
+                {% empty %}
+                    <p>No jobs available right now.</p>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

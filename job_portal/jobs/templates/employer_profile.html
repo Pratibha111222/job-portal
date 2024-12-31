@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employer Profile</title>
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Container */
+        .profile-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #007BFF;
+            margin-bottom: 20px;
+        }
+
+        /* Profile Details */
+        .profile-details p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .profile-details strong {
+            color: #555;
+        }
+
+        /* Buttons */
+        .profile-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .profile-actions a {
+            text-decoration: none;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        .profile-actions a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Separator */
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ddd;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h2>Employer Profile</h2>
+        <div class="profile-details">
+            <p><strong>Company Name:</strong> {{ employer.company_name }}</p>
+            <p><strong>Location:</strong> {{ employer.location }}</p>
+            <p><strong>Industry:</strong> {{ employer.industry }}</p>
+            <p><strong>Bio:</strong> {{ employer.bio }}</p>
+            <p><strong>Contact Email:</strong> {{ employer.contact_email }}</p>
+            <p><strong>Contact Phone:</strong> {{ employer.contact_phone }}</p>
+        </div>
+        <div class="profile-actions">
+            <a href="{% url 'employer_profile_edit' %}">Edit Profile</a>
+        </div>
+        <hr>
+        <div class="profile-actions">
+            <a href="{% url 'employer_dashboard' %}">Go to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

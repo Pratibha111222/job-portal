@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose a Subscription Plan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .pricing-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .plans {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .plan {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .plan:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .plan h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .plan p {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #007BFF;
+        }
+
+        .free .price {
+            color: #28a745;
+        }
+
+        .plan ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        .plan ul li {
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .plan button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .plan button:hover {
+            background-color: #0056b3;
+        }
+
+        .free button {
+            background-color: #28a745;
+        }
+
+        .free button:hover {
+            background-color: #218838;
+        }
+
+        .error {
+            color: red;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="pricing-container">
+        <h1>Select Your Plan</h1>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <div class="plans">
+            <!-- Free Mode -->
+            <div class="plan free">
+                <h2>Free Mode</h2>
+                <p>Access limited features for free</p>
+                <div class="price">Free</div>
+                <ul>
+                    <li>Basic Job Search</li>
+                    <li>Apply to 5 jobs per month</li>
+                    <li>Limited Support</li>
+                </ul>
+                {% if has_premium_subscription %}
+                    <p></p>
+                {% else %}
+                    <p>You are on the Free plan. Upgrade to Premium for more features.</p>
+                {% endif %}
+            </div>
+
+            <!-- Premium Subscription -->
+            <div class="plan premium">
+                <h2>Premium</h2>
+                <p>Get full access with premium</p>
+                <div class="price">₹999/month</div>
+                <ul>
+                    <li>Unlimited Job Applications</li>
+                    <li>Priority Support</li>
+                    <li>Access Exclusive Jobs</li>
+                </ul>
+                {% if has_premium_subscription %}
+                    <p>You already have a Premium subscription!</p>
+                {% else %}
+                    <form method="POST" action="{% url 'create_payment' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="plan" value="premium">
+                        <button type="submit">Proceed</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Back to Jobseeker Page Button -->
+        <a href="{% url 'job_seeker_dashboard' %}"><button class="back-button">Back to Dashboard</button></a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ job.title }} - Applied Job Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        .job-detail {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 60%;
+            flex-grow: 1;
+        }
+        .job-detail h2 {
+            margin-bottom: 10px;
+        }
+        .job-detail p {
+            margin: 5px 0;
+        }
+        .action-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 30%;
+        }
+        .btn-back {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        .btn-back:hover {
+            background-color: #0056b3;
+        }
+        .btn-chat {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        .btn-chat:hover {
+            background-color: #218838;
+        }
+        .btn-chat-disabled {
+            background-color: #ddd;
+            color: #666;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: not-allowed;
+            margin-top: 10px;
+        }
+        .login-link {
+            margin-top: 20px;
+        }
+        .status {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Job Details Section -->
+        <div class="job-detail">
+            <h2>{{ job.title }}</h2>
+            <p><strong>Company:</strong> {{ job.company.company_name }}</p>
+            <p><strong>Location:</strong> {{ job.location }}</p>
+            <p><strong>Salary:</strong> ₹{{ job.min_salary }} - ₹{{ job.max_salary }}</p>
+            <p><strong>Type:</strong> {{ job.job_type }}</p>
+            <p><strong>Experience Level:</strong>  {{ job.min_experience }} - {{ job.max_experience }} years</p>
+            <p><strong>Description:</strong> {{ job.description }}</p>
+            <p><strong>Deadline:</strong> {{ job.deadline }}</p>
+            <p><strong>Industry:</strong> {{ job.industry }}</p>
+            
+            <!-- Back to job seeker dashboard -->
+            <a href="{% url 'applied_jobs' %}" class="btn-back">Back</a>
+        </div>
+
+        <!-- Chat and Action Panel Section -->
+        <div class="action-panel">
+            <p class="status"><strong>Application Status:</strong> {{ application.display_status }}</p>
+            
+            {% if user.is_authenticated %}
+                {% if user == job.company.user %}
+                    <!-- Employer can always start or access chat -->
+                    <a href="{% url 'chat' application.id %}" class="btn-chat">Chat with the Job Seeker</a>
+                {% elif user == application.job_seeker.user %}
+                    <!-- Job seeker gets access if status is interview or messages exist -->
+                    {% if application.status == "interview" or application.messages.exists or has_premium_subscription %}
+                        <a href="{% url 'chat' application.id %}" class="btn-chat">Chat with the Employer</a>
+                    {% else %}
+                        <button class="btn-chat-disabled" disabled>You will gain access to chat once selected for an interview.</button>
+                    {% endif %}
+                {% else %}
+                    <p>You are not authorized to access this chat.</p>
+                {% endif %}
+            {% else %}
+                <p>Please <a href="{% url 'login' %}" class="login-link">login</a> to access this feature.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

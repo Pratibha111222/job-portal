@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Seeker Profile</title>
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            padding: 20px;
+        }
+
+        /* Profile Header */
+        h2 {
+            text-align: center;
+            color: #007BFF;
+        }
+
+        /* Profile Picture */
+        img {
+            display: block;
+            margin: 20px auto;
+            max-width: 150px;
+            border-radius: 50%;
+            border: 3px solid #007BFF;
+        }
+
+        /* Profile Info Container */
+        .profile-info {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-info p,
+        .profile-info h3 {
+            margin: 10px 0;
+        }
+
+        .profile-info a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .profile-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            background-color: #007BFF;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0 10px;
+            display: inline-block;
+        }
+
+        .nav-links a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .profile-info {
+                padding: 15px;
+            }
+
+            .nav-links a {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h2>{{ job_seeker.first_name }} {{ job_seeker.last_name }}'s Profile</h2>
+    
+    <!-- Profile Picture -->
+    {% if job_seeker.profile_picture %}
+        <img src="{{ job_seeker.profile_picture.url }}" alt="Profile Picture">
+    {% else %}
+        <p style="text-align: center;">No profile picture uploaded.</p>
+    {% endif %}
+    
+    <!-- Profile Info -->
+    <div class="profile-info">
+        <!-- Resume -->
+        <h3>Resume</h3>
+        {% if job_seeker.resume %}
+            <p><a href="{{ job_seeker.resume.url }}" target="_blank">Download Resume</a></p>
+        {% else %}
+            <p>No resume uploaded.</p>
+        {% endif %}
+
+        <!-- Other Profile Information -->
+        <p><strong>Skills:</strong> {{ job_seeker.skills }}</p>
+        <p><strong>Experience:</strong> {{ job_seeker.experience }} years</p>
+        <p><strong>Education:</strong> {{ job_seeker.education }}</p>
+        <p><strong>Location:</strong> {{ job_seeker.location }}</p>
+        <p><strong>LinkedIn:</strong> <a href="{{ job_seeker.linkedin_url }}">{{ job_seeker.linkedin_url }}</a></p>
+        <p><strong>Portfolio:</strong> <a href="{{ job_seeker.portfolio_url }}">{{ job_seeker.portfolio_url }}</a></p>
+        <p><strong>Summary:</strong> {{ job_seeker.summary }}</p>
+        <p><strong>Certifications:</strong> {{ job_seeker.certifications }}</p>
+        <p><strong>Languages:</strong> {{ job_seeker.languages }}</p>
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="nav-links">
+        <a href="{% url 'job_seeker_profile_edit' %}">Edit Profile</a>
+        <a href="{% url 'job_seeker_dashboard' %}">Back to Dashboard</a>
+    </div>
+</body>
+</html>

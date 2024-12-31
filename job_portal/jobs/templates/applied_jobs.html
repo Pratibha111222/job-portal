@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Jobs</title>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Title Styling */
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #34495e;
+            margin-bottom: 30px;
+        }
+        
+        /* Job Card Styling */
+        .job-card {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .job-card h3 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            color: #2c3e50;
+        }
+        
+        .job-card p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+        
+        .job-card strong {
+            font-weight: bold;
+        }
+        
+        .job-card a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .job-card a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Button Styling */
+        .btn-details {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-details:hover {
+            background: linear-gradient(45deg, #2980b9, #1c5980);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* No Applied Jobs Styling */
+        p {
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        
+        /* Back Button Styling */
+        .btn-back {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            border-radius: 8px;
+            margin-top: 30px;
+            transition: background 0.3s, transform 0.2s;
+            text-align: center;
+            margin: 0 auto;
+            display: block;
+            font-weight: bold;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-back:hover {
+            background: linear-gradient(45deg, #c0392b, #96281b);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            body {
+                margin: 10px;
+            }
+        
+            .job-card {
+                padding: 15px;
+            }
+        
+            .btn-details, .btn-back {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+        
+
+    </style>
+</head>
+<body>
+    <h1>Applied Jobs</h1>
+    
+    {% if applied_jobs %}
+        {% for application in applied_jobs %}
+            <div class="job-card">
+                <h3>{{ application.job.title }}</h3>
+                <p>
+                    <strong>Company:</strong> 
+                    <a href="{% url 'company_detail' application.job.company.id %}">
+                        {{ application.job.company.company_name }}
+                    </a>
+                </p>
+                <p><strong>Location:</strong> {{ application.job.location }}</p>
+                <p><strong>Salary:₹</strong> {{ application.job.min_salary}}-  ₹{{ application.job.max_salary}}</p>
+                
+                <p><strong>Status:</strong> {{ application.status }}</p>
+                <a href="{% url 'applied_job_detail' application.id %}">View Details</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>You haven't applied to any jobs yet.</p>
+    {% endif %}
+
+    <a href="{% url 'job_seeker_dashboard' %}" class="btn-back">Back to Dashboard</a>
+</body>
+</html>

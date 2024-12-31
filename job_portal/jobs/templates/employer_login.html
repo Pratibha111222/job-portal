@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Login</title>
+    <!-- Include CSS -->
+    <style>
+        /* General Styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        /* Form Container */
+        form {
+            background: #ffffff;
+            padding: 25px 35px;
+            border-radius: 10px;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2d72d9; /* Blue accent color */
+            font-size: 1.5rem;
+        }
+
+        /* Form Fields */
+        form div {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #fafafa;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #2d72d9;
+            outline: none;
+            box-shadow: 0px 0px 6px rgba(45, 114, 217, 0.3);
+        }
+
+        /* Submit Button */
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1rem;
+            background-color: #2d72d9;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #1e4fa1;
+        }
+
+        /* Messages Styling */
+        ul {
+            margin-top: 15px;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            color: red;
+            font-size: 0.9rem;
+        }
+
+        /* Sign-Up Link */
+        p {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+
+        a {
+            color: #2d72d9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            form {
+                padding: 20px;
+                width: 90%;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            input[type="text"],
+            input[type="password"] {
+                font-size: 1rem;
+            }
+
+            button[type="submit"] {
+                font-size: 1rem;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        <h2>Company Login</h2>
+
+        <!-- Display error messages -->
+        {% if message %}
+            <ul>
+                <li>{{ message }}</li>
+            </ul>
+        {% endif %}
+
+        <div>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit">Login</button>
+
+        <!-- Forgot Password Link -->
+        <p><a href="{% url 'employer_password_reset' %}">Forgot your password?</a></p>
+
+        <!-- Link to Employer Sign-Up -->
+        <p>Don't have an account? <a href="{% url 'employer_signup' %}">Sign up here</a></p>
+    </form>
+</body>
+</html>

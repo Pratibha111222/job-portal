@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat for Application #{{ application.id }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .messages {
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            max-height: 400px;
+            overflow-y: scroll;
+        }
+        .messages div {
+            margin-bottom: 15px;
+        }
+        .messages strong {
+            color: #007BFF;
+        }
+        .messages small {
+            display: block;
+            color: #888;
+            font-size: 0.9em;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <!-- Dynamic Header: Display Company Name for Job Seeker, Full Name for Employer -->
+    <h1>
+        {% if request.user == application.job.company.user %}
+             
+            Chat Box {{ request.user.jobseeker.first_name }} {{ request.user.jobseeker.last_name }}
+        {% else %}
+             
+            Chat Box  - {{ application.job.company.company_name }}
+        {% endif %}
+    </h1>
+    
+    <!-- Messages Section -->
+    <div class="messages">
+        {% for message in messages %}
+            <div>
+                {% if message.sender.jobseeker %}
+                    <!-- If the sender is a Job Seeker -->
+                    <strong>{{ message.sender.jobseeker.first_name }} {{ message.sender.jobseeker.last_name }}</strong>: 
+                {% elif message.sender.employer %}
+                    <!-- If the sender is an Employer -->
+                    <strong>{{ message.sender.employer.company_name }}</strong>: 
+                {% else %}
+                    <!-- If sender is neither (fallback) -->
+                    <strong>{{ message.sender.username }}</strong>: 
+                {% endif %}
+                {{ message.content }}
+                <small>{{ message.timestamp }}</small>
+            </div>
+        {% endfor %}
+    </div>
+    
+
+    <!-- Message Input Form -->
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="content" rows="4" cols="50" placeholder="Type your message here"></textarea>
+        <button type="submit">Send</button>
+    </form>
+
+    <!-- Back Button -->
+    {% if request.user == application.job.company.user %}
+        <!-- Employer: Go to Applicant View -->
+        <a href="{% url 'view_applications' application.job.id %}" class="back-btn">Back to Applicant</a>
+    {% else %}
+        <!-- Job Seeker: Go to Applied Jobs -->
+        <a href="{% url 'applied_jobs' %}" class="back-btn">Back to Applied Jobs</a>
+    {% endif %}
+</body>
+</html>
