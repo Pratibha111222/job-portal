@@ -22,11 +22,13 @@ urlpatterns = [
     path('employer/password_reset/confirm/', views.employer_reset_password, name='employer_reset_password'),
     # Employer URLs
     path('employer-dashboard/', views.employer_dashboard, name='employer_dashboard'),  # Employer Dashboard
-    path('employer-profile-edit/', views.EmployerProfileEditView.as_view(), name='employer_profile_edit'),
+path('employer/profile/create/', views.EmployerProfileCreateView.as_view(), name='employer_profile_create'),
+    path('employer/profile/update/', views.EmployerProfileUpdateView.as_view(), name='employer_profile_update'),
    path('edit-company-profile/', views.edit_company_profile, name='edit_company_profile'),  # Employer Profile Edit
     path('post-job/', views.post_job, name='post_job'),  # Post a job
     path('jobs-posted/', views.jobs_posted, name='jobs_posted'),
-    path('employer-profile/', views.EmployerProfileView.as_view(), name='employer_profile'),  # Employer Profile View
+    path('employer-profile/', views.EmployerProfileView.as_view(), name='employer_profile'), 
+     
     
     # Logout URL
     path('logout/', views.custom_logout, name='logout'),  # Logout
@@ -52,7 +54,7 @@ urlpatterns = [
     path('subscriptionpage/', views.subscriptionpage, name='subscriptionpage'),
      path('create-payment/',views.create_payment, name='create_payment'),
     path('payment-success/',views.payment_success, name='payment_success'),
-    
+     
 ]
 
 from django.conf import settings

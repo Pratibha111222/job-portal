@@ -3,11 +3,40 @@ from .models import Employer, JobSeeker, Job, Application, Message, Subscription
 
 
 # Employer Admin
-@admin.register(Employer)
+from django.contrib import admin
+from .models import Employer
+from django.contrib import admin
+from .models import Employer
+
+# Optional: Customize the Admin Interface
 class EmployerAdmin(admin.ModelAdmin):
-    list_display = ('company_name', 'user', 'industry', 'location', 'contact_email', 'contact_phone')
-    search_fields = ('company_name', 'user__username', 'industry', 'location', 'contact_email')
-    list_filter = ('industry', 'location')
+    # Define the fields you want to display in the list view of the admin page
+    list_display = ('user', 'name', 'job_title', 'department', 'company', 'experience')
+    
+    # Add filters for easier navigation
+    list_filter = ('gender', 'department', 'company')
+    
+    # Add search functionality
+    search_fields = ('name', 'user__username', 'job_title', 'company')
+    
+    # Group fields in the detail view for better organization
+    fieldsets = (
+        ('User Information', {
+            'fields': ('user', 'name', 'dob', 'gender', 'phone_number', 'email')
+        }),
+        ('Professional Details', {
+            'fields': ('job_title', 'department', 'skills', 'experience', 'bio')
+        }),
+        ('Company Information', {
+            'fields': ('company', 'company_logo')
+        }),
+        ('Media', {
+            'fields': ('profile_picture',)
+        }),
+    )
+
+# Register the Employer model with the custom admin class
+admin.site.register(Employer, EmployerAdmin)
 
 
 # JobSeeker Admin
@@ -20,24 +49,44 @@ class JobSeekerAdmin(admin.ModelAdmin):
 
 
 # Job Admin
+from django.contrib import admin
+from .models import Job
+
 @admin.register(Job)
 class JobAdmin(admin.ModelAdmin):
-    list_display = (
-        'title', 'company', 'industry', 'location', 'job_type', 'job_mode',
-        'min_salary', 'max_salary', 'min_experience', 'max_experience', 
-        'vacancies', 'deadline', 'status', 'created_at'
-    )
-    search_fields = (
-        'title', 'company__company_name', 'description', 'location', 'industry'
-    )
-    list_filter = ('job_type', 'job_mode', 'industry', 'location', 'status')
+    list_display = ('title', 'company', 'job_type', 'job_mode', 'location', 'industry', 'status', 'vacancies', 'deadline')
+    list_filter = ('industry', 'job_type', 'job_mode', 'status')
+    search_fields = ('title', 'company__company_name', 'location')
     ordering = ('-created_at',)
-    fields = (
-        'title', 'company', 'description', 'location', 'industry',
-        'min_salary', 'max_salary', 'min_experience', 'max_experience',
-        'vacancies', 'job_type', 'job_mode', 'deadline', 'status'
-    )
     readonly_fields = ('created_at', 'updated_at')
+
+    fieldsets = (
+        ("Job Details", {
+            'fields': ('title', 'company', 'description', 'industry', 'location', 'job_type', 'job_mode', 'deadline', 'status')
+        }),
+        ("Salary & Experience", {
+            'fields': ('min_salary', 'max_salary', 'min_experience', 'max_experience')
+        }),
+        ("Vacancies", {
+            'fields': ('vacancies',)
+        }),
+        ("Timestamps", {
+            'fields': ('created_at', 'updated_at')
+        }),
+    )
+
+    actions = ['mark_as_closed', 'mark_as_active']
+
+    def mark_as_closed(self, request, queryset):
+        queryset.update(status='closed')
+        self.message_user(request, "Selected jobs have been marked as closed.")
+    mark_as_closed.short_description = "Mark selected jobs as Closed"
+
+    def mark_as_active(self, request, queryset):
+        queryset.update(status='active')
+        self.message_user(request, "Selected jobs have been marked as active.")
+    mark_as_active.short_description = "Mark selected jobs as Active"
+
 
 
 # Application Admin
@@ -68,3 +117,6 @@ class SubscriptionAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)
     fields = ('user', 'plan', 'subscription_id', 'is_active', 'created_at', 'expires_at')
     readonly_fields = ('created_at',)
+
+ 
+ 

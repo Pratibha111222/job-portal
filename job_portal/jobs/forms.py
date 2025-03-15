@@ -37,23 +37,36 @@ class JobForm(forms.ModelForm):
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4, 'cols': 50}),
         }
+from django import forms
+from .models import Employer
 
-# Employer Profile Form
 class EmployerProfileForm(forms.ModelForm):
     class Meta:
         model = Employer
         fields = [
-            'company_name',
-            'website',
+            'name', 
+            'dob', 
+            'gender', 
+            'experience', 
+            'skills', 
+            'job_title', 
+            'department', 
+            'phone_number', 
+            'email', 
+            'profile_picture', 
+            'company', 
             'bio',
-            'company_logo',
-            'location',
-            'industry',
-            'contact_email',
-            'contact_phone',
-            'company_address',
+            'company_logo', 
+            
         ]
-# forms.py
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get('phone_number')
+        if phone_number and (len(phone_number) < 10 or len(phone_number) > 15):
+            raise forms.ValidationError("Phone number must be between 10 and 15 digits.")
+        return phone_number
+
+    
 from django import forms
 from .models import Message
 

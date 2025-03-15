@@ -5,77 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ job.title }} - Applied Job Details</title>
     <style>
+        /* General Styling */
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #eef2f3, #d9e4ec);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
+
         .container {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            gap: 20px;
+            gap: 30px;
+            max-width: 1000px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.15);
         }
+
+        /* Job Detail Section */
         .job-detail {
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 5px;
-            max-width: 60%;
             flex-grow: 1;
-        }
-        .job-detail h2 {
-            margin-bottom: 10px;
-        }
-        .job-detail p {
-            margin: 5px 0;
-        }
-        .action-panel {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            border: 1px solid #ddd;
             padding: 20px;
-            border-radius: 5px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .job-detail:hover {
+            transform: translateY(-5px);
+        }
+
+        .job-detail h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .job-detail p {
+            font-size: 1rem;
+            margin: 8px 0;
+            color: #555;
+        }
+
+        .job-detail strong {
+            color: #2c3e50;
+        }
+
+        /* Action Panel */
+        .action-panel {
             max-width: 30%;
+            padding: 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
         }
+
+        .action-panel:hover {
+            transform: translateY(-5px);
+        }
+
+        .status {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #34495e;
+            margin-bottom: 15px;
+        }
+
+        /* Buttons */
+        .btn-back, .btn-chat {
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
         .btn-back {
-            background-color: #007BFF;
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            display: inline-block;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
         }
+
         .btn-back:hover {
-            background-color: #0056b3;
+            background: linear-gradient(45deg, #ff4b2b, #e53558);
+            transform: scale(1.05);
         }
+
         .btn-chat {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
-            display: inline-block;
+            background: linear-gradient(45deg, #007bff, #0056b3);
         }
+
         .btn-chat:hover {
-            background-color: #218838;
+            background: linear-gradient(45deg, #0056b3, #004494);
+            transform: scale(1.05);
         }
+
         .btn-chat-disabled {
             background-color: #ddd;
             color: #666;
-            padding: 10px 15px;
-            border-radius: 5px;
+            padding: 12px 24px;
+            border-radius: 10px;
             border: none;
+            font-size: 1rem;
+            font-weight: bold;
             cursor: not-allowed;
+            box-shadow: none;
             margin-top: 10px;
         }
-        .login-link {
-            margin-top: 20px;
-        }
-        .status {
-            font-weight: bold;
-            margin-bottom: 20px;
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .container {
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+            }
+
+            .job-detail,
+            .action-panel {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .btn-back, .btn-chat {
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -88,25 +162,23 @@
             <p><strong>Location:</strong> {{ job.location }}</p>
             <p><strong>Salary:</strong> ₹{{ job.min_salary }} - ₹{{ job.max_salary }}</p>
             <p><strong>Type:</strong> {{ job.job_type }}</p>
-            <p><strong>Experience Level:</strong>  {{ job.min_experience }} - {{ job.max_experience }} years</p>
+            <p><strong>Experience Level:</strong> {{ job.min_experience }} - {{ job.max_experience }} years</p>
             <p><strong>Description:</strong> {{ job.description }}</p>
             <p><strong>Deadline:</strong> {{ job.deadline }}</p>
             <p><strong>Industry:</strong> {{ job.industry }}</p>
             
-            <!-- Back to job seeker dashboard -->
+            <!-- Back to Applied Jobs -->
             <a href="{% url 'applied_jobs' %}" class="btn-back">Back</a>
         </div>
 
-        <!-- Chat and Action Panel Section -->
+        <!-- Chat and Action Panel -->
         <div class="action-panel">
             <p class="status"><strong>Application Status:</strong> {{ application.display_status }}</p>
             
             {% if user.is_authenticated %}
                 {% if user == job.company.user %}
-                    <!-- Employer can always start or access chat -->
                     <a href="{% url 'chat' application.id %}" class="btn-chat">Chat with the Job Seeker</a>
                 {% elif user == application.job_seeker.user %}
-                    <!-- Job seeker gets access if status is interview or messages exist -->
                     {% if application.status == "interview" or application.messages.exists or has_premium_subscription %}
                         <a href="{% url 'chat' application.id %}" class="btn-chat">Chat with the Employer</a>
                     {% else %}

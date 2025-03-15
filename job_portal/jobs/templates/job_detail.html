@@ -4,69 +4,118 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ job.title }} - Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
+        /* General Styling */
+        /* General Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: rgba(229, 233, 237, 0.9); /* Soft blue-gray background */
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
 
-        .container {
-            max-width: 800px;
-            margin: 40px auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
+/* Container */
+.container {
+    max-width: 700px;
+    background: rgba(255, 255, 255, 0.2); /* Glassmorphism effect */
+    padding: 30px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
 
-        h1 {
-            text-align: center;
-            color: #007BFF;
-        }
+/* Job Title */
+h1 {
+    font-size: 2rem;
+    color: #222;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 
-        .job-details {
-            margin-bottom: 20px;
-        }
+/* Job Details */
+.job-details {
+    text-align: left;
+}
 
-        .job-details p {
-            margin: 10px 0;
-        }
+.job-details p {
+    margin: 12px 0;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 12px;
+    border-radius: 8px;
+    color: #222;
+    font-weight: 500;
+}
 
-        .apply-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background-color: #28a745;
-            color: white;
-            text-align: center;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+.job-details strong {
+    color: #007BFF;
+}
 
-        .apply-btn:hover {
-            background-color: #218838;
-        }
+/* Apply Button */
+.apply-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 14px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #007BFF, #6610f2);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 
-        .back-btn {
-            display: block;
-            margin-top: 20px;
-            text-align: center;
-        }
+.apply-btn:hover {
+    background: linear-gradient(135deg, #0056b3, #520dc2);
+    transform: scale(1.05);
+    box-shadow: 0px 5px 15px rgba(0, 123, 255, 0.5);
+}
 
-        .back-btn a {
-            color: #007BFF;
-            text-decoration: none;
-            font-weight: bold;
-        }
+/* Back Button */
+.back-btn {
+    margin-top: 20px;
+}
 
-        .back-btn a:hover {
-            text-decoration: underline;
-        }
+.back-btn a {
+    color: #007BFF;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.back-btn a:hover {
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .apply-btn {
+        font-size: 1rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -76,20 +125,40 @@
     <div class="job-details">
         <p><strong>Location:</strong> {{ job.location }}</p>
         <p><strong>Industry:</strong> {{ job.industry }}</p>
-        <p><strong>Salary:</strong> {{ job.salary }}</p>
-        <p><strong>Experience Level:</strong> {{ job.experience_level }}</p>
+        <p><strong>Salary:</strong> 
+            {% if job.min_salary and job.max_salary %}
+                ₹{{ job.min_salary }} - ₹{{ job.max_salary }}
+            {% elif job.min_salary %}
+                Starting at ₹{{ job.min_salary }}
+            {% elif job.max_salary %}
+                Up to ₹{{ job.max_salary }}
+            {% else %}
+                Not disclosed
+            {% endif %}
+        </p>
+        <p><strong>Experience Level:</strong>  
+            {% if job.min_experience and job.max_experience %}
+                {{ job.min_experience }} - {{ job.max_experience }} years
+            {% elif job.min_experience %}
+                {{ job.min_experience }}+ years
+            {% elif job.max_experience %}
+                Up to {{ job.max_experience }} years
+            {% else %}
+                No experience required
+            {% endif %}
+        </p>
         <p><strong>Description:</strong> {{ job.description }}</p>
     </div>
 
-    <!-- Apply button -->
+    <!-- Apply Button -->
     <form method="POST" action="{% url 'apply_job' job.id %}">
         {% csrf_token %}
         <button class="apply-btn" type="submit">Apply Now</button>
     </form>
 
-    <!-- Back button -->
+    <!-- Back to Job Listings -->
     <div class="back-btn">
-        <a href="{% url 'job_seeker_dashboard' %}">Back to Job Listings</a>
+        <a href="{% url 'job_seeker_dashboard' %}">⬅ Back to Job Listings</a>
     </div>
 </div>
 

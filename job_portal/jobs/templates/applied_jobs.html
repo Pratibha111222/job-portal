@@ -6,131 +6,145 @@
     <title>Applied Jobs</title>
     <style>
         /* General Body Styling */
+        /* General Body Styling */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f9;
-            color: #333;
-            line-height: 1.6;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #ffffff; /* Changed to white */
+            color: #333; /* Changed text color to dark gray */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
-        
+
         /* Title Styling */
         h1 {
             text-align: center;
-            font-size: 2.5rem;
-            color: #34495e;
-            margin-bottom: 30px;
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #2c3e50;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
-        
+
         /* Job Card Styling */
         .job-card {
-            background-color: #ffffff;
-            border: 1px solid #e0e0e0;
+            background: #f9f9f9; /* Light gray background */
             border-radius: 12px;
             padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 20px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
         }
-        
+
         .job-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
         }
-        
+
         .job-card h3 {
-            margin-top: 0;
             font-size: 1.8rem;
-            color: #2c3e50;
+            color: #34495e;
+            margin-bottom: 10px;
         }
-        
+
         .job-card p {
-            margin: 8px 0;
             font-size: 1rem;
+            margin: 8px 0;
+            color: #555;
         }
-        
+
         .job-card strong {
             font-weight: bold;
+            color: #2c3e50;
         }
-        
+
+        /* Company Link */
         .job-card a {
-            color: #3498db;
+            color: #007bff;
+            font-weight: bold;
             text-decoration: none;
-            font-weight: 600;
+            transition: 0.3s ease-in-out;
         }
-        
+
         .job-card a:hover {
             text-decoration: underline;
+            color: #0056b3;
         }
-        
-        /* Button Styling */
+
+        /* Details Button */
         .btn-details {
             display: inline-block;
             padding: 12px 24px;
-            background: linear-gradient(45deg, #3498db, #2980b9);
+            background: linear-gradient(45deg, #007bff, #0056b3);
             color: white;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-top: 15px;
             font-size: 1rem;
             font-weight: bold;
-            transition: background 0.3s, transform 0.2s;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
-        
+
         .btn-details:hover {
-            background: linear-gradient(45deg, #2980b9, #1c5980);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(45deg, #0056b3, #004494);
+            transform: scale(1.05);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
         }
-        
-        /* No Applied Jobs Styling */
+
+        /* No Applied Jobs Message */
         p {
             text-align: center;
             font-size: 1.2rem;
         }
-        
-        /* Back Button Styling */
+
+        /* Back Button */
         .btn-back {
             display: inline-block;
             padding: 12px 24px;
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            background: linear-gradient(45deg, #dc3545, #a71d2a);
             color: white;
             text-decoration: none;
             font-size: 1rem;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-top: 30px;
-            transition: background 0.3s, transform 0.2s;
-            text-align: center;
-            margin: 0 auto;
-            display: block;
+            transition: all 0.3s ease-in-out;
             font-weight: bold;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
         }
-        
+
         .btn-back:hover {
-            background: linear-gradient(45deg, #c0392b, #96281b);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(45deg, #a71d2a, #82151f);
+            transform: scale(1.05);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
         }
-        
-        /* Responsive Adjustments */
+
+        /* Responsive Design */
         @media (max-width: 768px) {
             body {
-                margin: 10px;
+                padding: 10px;
             }
-        
+
             .job-card {
+                width: 100%;
                 padding: 15px;
             }
-        
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
             .btn-details, .btn-back {
-                padding: 10px 20px;
                 font-size: 0.9rem;
+                padding: 10px 20px;
             }
         }
-        
-
     </style>
 </head>
 <body>
@@ -143,7 +157,7 @@
                 <p>
                     <strong>Company:</strong> 
                     <a href="{% url 'company_detail' application.job.company.id %}">
-                        {{ application.job.company.company_name }}
+                       {{ application.job.company.company}}
                     </a>
                 </p>
                 <p><strong>Location:</strong> {{ application.job.location }}</p>

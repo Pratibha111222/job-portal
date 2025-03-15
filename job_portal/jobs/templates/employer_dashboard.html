@@ -1,236 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employer Dashboard</title>
-    <style>
-        /* General Styling */
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #007BFF; /* Blue background */
-            color: white; /* White text */
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employer Dashboard</title>
+  <style>
+    /* General Styling */
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
 
-        /* Navbar Styling */
-        .navbar {
-            background-color: #0056b3; /* Darker blue for the navbar */
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    /* Navbar */
+    .navbar {
+      background: linear-gradient(45deg, #007bff, #0056b3);
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
 
-        .navbar h2 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
+    .navbar h2 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
 
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-            font-weight: bold;
-        }
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 20px;
+      transition: color 0.3s ease;
+    }
 
-        .navbar a:hover {
-            text-decoration: underline;
-        }
+    .navbar a:hover {
+      color: #ffdd57;
+    }
 
-        /* Dashboard Stats */
-        .dashboard-stats {
-            margin: 20px;
-            padding: 20px;
-            background-color: #ffffff;
-            color: black; /* Black text for stats */
-            border-radius: 5px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        }
+    /* Dashboard Stats */
+    .dashboard-stats {
+      margin: 20px;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+    }
 
-        .dashboard-stats p {
-            font-size: 1rem;
-            margin: 10px 0;
-        }
+    .dashboard-stats p {
+      font-size: 1.1rem;
+      margin: 10px 0;
+      font-weight: bold;
+    }
 
-        /* Job Listing */
-        h3 {
-            margin: 20px;
-            color: white; /* White text for section titles */
-        }
+    /* Post Job Button */
+    .post-job-btn {
+      display: inline-block;
+      background: linear-gradient(45deg, #28a745, #218838);
+      color: white;
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-        ul {
-            list-style: none;
-            padding: 0;
-        }
+    .post-job-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.25);
+    }
 
-        li {
-            background-color: #ffffff;
-            margin: 10px 20px;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    /* Job Listings */
+    .job-list {
+      width: 90%;
+      max-width: 800px;
+      margin-top: 20px;
+    }
 
-        li h4 {
-            margin: 0;
-            color: #007BFF; /* Blue color for job titles */
-            flex: 1;
-        }
+    .job-card {
+      background: white;
+      padding: 20px;
+      margin: 10px 0;
+      border-radius: 12px;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-        li p {
-            margin: 5px 0;
-        }
+    .job-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.15);
+    }
 
-        li form button {
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 8px 15px;
-            cursor: pointer;
-            margin-right: 10px;
-        }
+    .job-card h4 {
+      color: #007BFF;
+      margin: 0;
+      font-size: 1.3rem;
+    }
 
-        li form button:hover {
-            background-color: #5a6268;
-        }
+    .job-card p {
+      margin: 5px 0;
+      font-size: 1rem;
+      color: #555;
+    }
 
-        /* Close Job Button */
-        .close-job-btn {
-            background-color: #dc3545; /* Red color for close job button */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 8px 15px;
-            cursor: pointer;
-        }
+    .job-actions {
+      display: flex;
+      gap: 10px;
+    }
 
-        .close-job-btn:hover {
-            background-color: #c82333;
-        }
+    .action-btn {
+      padding: 10px 15px;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
 
-        /* Post Job Button */
-        .post-job-btn {
-            background-color: #28a745; /* Green color for post job button */
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            margin-top: 20px;
-        }
+    .view-btn {
+      background: #6c757d;
+      color: white;
+    }
 
-        .post-job-btn:hover {
-            background-color: #218838;
-        }
+    .view-btn:hover {
+      background: #5a6268;
+    }
 
-        /* Profile Incomplete Message */
-        .profile-incomplete {
-            background-color: #ffc107;
-            color: black;
-            padding: 10px;
-            margin: 20px;
-            border-radius: 5px;
-        }
+    .close-job-btn {
+      background: #dc3545;
+      color: white;
+    }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                text-align: center;
-            }
+    .close-job-btn:hover {
+      background: #c82333;
+    }
 
-            .navbar a {
-                margin-left: 0;
-                margin-top: 10px;
-            }
+    .closed-btn {
+      background: #ccc;
+      color: #666;
+      cursor: not-allowed;
+    }
 
-            .dashboard-stats,
-            .post-job-btn {
-                width: 100%;
-                margin: 10px 0;
-            }
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+      }
 
-            li {
-                flex-direction: column;
-                align-items: flex-start;
-            }
+      .navbar a {
+        margin: 10px 0;
+      }
 
-            li form {
-                margin-top: 10px;
-                display: flex;
-                flex-direction: column;
-            }
+      .job-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-            li form button {
-                margin-bottom: 5px;
-                width: 100%;
-            }
+      .job-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      }
 
-            .close-job-btn {
-                margin-top: 10px;
-            }
-        }
-    </style>
+      .action-btn {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 5px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <div class="navbar">
-        <h2>Employer Dashboard</h2>
-        <div>
-            <a href="{% url 'employer_profile' %}">Company Profile</a>
-            <a href="{% url 'jobs_posted' %}">Jobs Posted</a>
-            <a href="{% url 'logout' %}">Logout</a>
-        </div>
+  <!-- Navbar -->
+  <div class="navbar">
+    <h2>Employer Dashboard</h2>
+    <div>
+      <a href="{% url 'employer_profile' %}">Employer Profile</a>
+      <a href="{% url 'jobs_posted' %}">Jobs Posted</a>
+      <a href="{% url 'logout' %}">Logout</a>
     </div>
+  </div>
 
-    <!-- Profile Incomplete Message -->
-    {% if profile_incomplete %}
-        <div class="profile-incomplete">
-            <p>Your profile is incomplete. Please <a href="{% url 'employer_profile_edit' %}">update your profile</a>.</p>
-        </div>
-    {% endif %}
+  <!-- Dashboard Stats -->
+  <div class="dashboard-stats">
+    <p><strong>Total Jobs Posted:</strong> {{ total_jobs }}</p>
+    <p><strong>Pending Applications:</strong> {{ pending_applications }}</p>
+  </div>
 
-    <!-- Dashboard Stats -->
-    <div class="dashboard-stats">
-        <p><strong>Total Jobs Posted:</strong> {{ total_jobs }}</p>
-        <p><strong>Pending Applications:</strong> {{ pending_applications }}</p>
-    </div>
+  <!-- Post Job Button -->
+  <a href="{% url 'post_job' %}"><button class="post-job-btn">Post a Job</button></a>
 
-    <!-- Post Job Button -->
-    <a href="{% url 'post_job' %}"><button class="post-job-btn">Post a Job</button></a>
-
-    <!-- Job List -->
-    <h3>Your Active Jobs</h3>
+  <!-- Job Listings -->
+  <div class="job-list">
+    <h3 style="color: #0056b3;">Your Active Jobs</h3>
     {% if jobs %}
-        <ul>
-            {% for job in jobs %}
-                <li>
-                    <h4>{{ job.title }}</h4>
-                    <p>{{ job.location }} - {{ job.salary }}</p>
-                    <form method="GET" action="{% url 'view_applications' job.id %}">
-                        <button type="submit">View Applications</button>
-                    </form>
-                    {% if job.is_active %}
-                        <form method="POST" action="{% url 'close_job' job.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="close-job-btn">Close Job</button>
-                        </form>
-                    {% else %}
-                        <button class="close-job-btn" disabled>Job Closed</button>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
+      {% for job in jobs %}
+        <div class="job-card">
+          <div>
+            <h4>{{ job.title }}</h4>
+            <p>{{ job.location }} </p>
+          </div>
+          <div class="job-actions">
+            <form method="GET" action="{% url 'view_applications' job.id %}">
+              <button type="submit" class="action-btn view-btn">View Applications</button>
+            </form>
+            {% if job.is_active %}
+              <form method="POST" action="{% url 'close_job' job.id %}">
+                {% csrf_token %}
+                <button type="submit" class="action-btn close-job-btn">Close Job</button>
+              </form>
+            {% else %}
+              <button class="action-btn closed-btn" disabled>Job Closed</button>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
     {% else %}
-        <p>No active jobs posted yet.</p>
+      <p style="text-align: center; color: #555;">No active jobs posted yet.</p>
     {% endif %}
-    
+  </div>
+
 </body>
 </html>

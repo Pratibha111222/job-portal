@@ -2,25 +2,31 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.timezone import now
 
-
-
 class Employer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    company_name = models.CharField(max_length=100)
-    website = models.URLField(blank=True)
-    bio = models.TextField(blank=True)
+    name = models.CharField(max_length=100)
+    dob = models.DateField(null=True, blank=True)  # Date of Birth
+    gender = models.CharField(max_length=10, choices=[('Male', 'Male'), ('Female', 'Female'), ('Other', 'Other')], blank=True)
+    
+    experience = models.IntegerField(default=0)  # Default value set to 0 years
+
+    skills = models.CharField(max_length=100)
+    job_title = models.CharField(max_length=100, blank=True)
+    department = models.CharField(max_length=100, blank=True)
+    phone_number = models.CharField(max_length=15, blank=True)
+    email = models.EmailField(blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='employee_pictures/', blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
+    company = models.CharField(max_length=100)  
     company_logo = models.ImageField(upload_to='company_logos/', blank=True, null=True)
-    location = models.CharField(max_length=100, help_text="City, Country")
-    industry = models.CharField(max_length=100, help_text="e.g., Information Technology, Healthcare")
-    contact_email = models.EmailField(blank=True)
-    contact_phone = models.CharField(max_length=15, blank=True)
-    company_address = models.CharField(max_length=500, blank=True, help_text="Company's physical address")
+ 
+    
 
     def __str__(self):
-        return self.company_name
-    @property
-    def is_employer(self):
-        return hasattr(self, 'employer') 
+        return f"{self.user.username} ({self.job_title})"
+
+
+ 
 
 
 class JobSeeker(models.Model):

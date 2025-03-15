@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jobs Posted</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         /* General Styling */
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fc;
             color: #333;
             padding: 20px;
         }
@@ -17,39 +18,77 @@
         /* Page Title */
         h2 {
             text-align: center;
-            margin-bottom: 20px;
             color: #007BFF;
+            font-weight: 600;
         }
 
         /* Jobs List */
         ul {
             list-style: none;
             padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
         }
 
         li {
-            background-color: #ffffff;
-            margin: 10px auto;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        li:hover {
+            transform: translateY(-5px);
         }
 
         li strong {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: #007BFF;
+            font-weight: 600;
         }
 
-        li a {
-            color: #28a745;
+        li p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        /* Buttons */
+        .job-actions {
+            margin-top: 10px;
+        }
+
+        .job-actions a {
+            display: inline-block;
+            padding: 8px 12px;
+            margin-right: 8px;
+            border-radius: 5px;
             text-decoration: none;
-            font-weight: bold;
-            margin-right: 10px;
+            font-weight: 600;
+            transition: 0.3s;
         }
 
-        li a:hover {
-            text-decoration: underline;
+        .edit-btn {
+            background: #ff9800;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background: #e68900;
+        }
+
+        .view-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .view-btn:hover {
+            background: #218838;
         }
 
         /* Post Job Button */
@@ -57,18 +96,19 @@
             display: block;
             text-align: center;
             margin: 20px auto;
-            background-color: #007BFF;
+            background: #007BFF;
             color: white;
             text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 12px 20px;
+            border-radius: 8px;
             font-size: 16px;
             font-weight: bold;
-            max-width: 200px;
+            max-width: 220px;
+            transition: background 0.3s;
         }
 
         .post-job-link:hover {
-            background-color: #0056b3;
+            background: #0056b3;
         }
 
         /* Back to Dashboard Link */
@@ -79,25 +119,29 @@
             color: #007BFF;
             text-decoration: none;
             font-weight: bold;
+            font-size: 16px;
+            transition: color 0.3s;
         }
 
         .back-link:hover {
+            color: #0056b3;
             text-decoration: underline;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             li {
-                padding: 10px;
-                margin: 10px;
+                padding: 15px;
             }
 
-            .post-job-link {
+            .post-job-link,
+            .back-link {
                 font-size: 14px;
             }
 
-            li a {
+            .job-actions a {
                 font-size: 14px;
+                padding: 6px 10px;
             }
         }
     </style>
@@ -105,26 +149,27 @@
 <body>
     <h2>Jobs Posted</h2>
 
-    
-    
-
     <!-- Jobs List -->
     <ul>
         {% for job in jobs %}
             <li>
-                <strong>{{ job.title }}</strong> - {{ job.location }} - {{ job.salary }}
-                <br>
-                Deadline: {{ job.deadline }}
-                <br>
-                <!-- Edit Job Button -->
-                <a href="{% url 'edit_job' job.id %}">Edit Job</a>
-                <!-- View Applications Button -->
-                <a href="{% url 'view_applications' job.id %}">View Applications</a>
+                <strong>{{ job.title }}</strong>
+                <p>📍 Location: {{ job.location }}</p>
+                <p>💰 Salary: {{ job.salary }}</p>
+                <p>🕒 Deadline: {{ job.deadline }}</p>
+
+                <div class="job-actions">
+                    <a href="{% url 'edit_job' job.id %}" class="edit-btn">✏ Edit Job</a>
+                    <a href="{% url 'view_applications' job.id %}" class="view-btn">👀 View Applications</a>
+                </div>
             </li>
         {% endfor %}
     </ul>
 
+    <!-- Post Job Button -->
+    <a href="{% url 'post_job' %}" class="post-job-link">➕ Post a Job</a>
+
     <!-- Back to Dashboard Link -->
-    <a href="{% url 'employer_dashboard' %}" class="back-link">Back to Dashboard</a>
+    <a href="{% url 'employer_dashboard' %}" class="back-link">⬅ Back to Dashboard</a>
 </body>
 </html>

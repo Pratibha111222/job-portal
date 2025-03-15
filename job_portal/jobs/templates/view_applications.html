@@ -6,154 +6,187 @@
     <title>Applications for {{ job.title }}</title>
     <style>
         /* General Styling */
+        /* General Styling */
+        /* General Styling */
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f4f6f9, #dfe9f3);
             color: #333;
             padding: 20px;
         }
-
+        
         /* Page Title */
         h2 {
             text-align: center;
-            margin-bottom: 20px;
-            color: #007BFF;
+            margin-bottom: 25px;
+            color: #0056b3;
+            font-size: 26px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-
+        
         /* Application List */
         ul {
             list-style: none;
             padding: 0;
         }
-
+        
         li {
-            background-color: #ffffff;
-            margin: 10px auto;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+            background: linear-gradient(135deg, #ffffff, #eef2f7);
+            margin: 15px auto;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.12);
+            max-width: 650px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
-
+        
+        li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
         li strong {
-            font-size: 1.2rem;
-            color: #007BFF;
+            font-size: 1.3rem;
+            color: #0056b3;
         }
-
+        
         li em {
             color: #6c757d;
         }
-
+        
         li a {
             color: #28a745;
             text-decoration: none;
             font-weight: bold;
+            transition: color 0.3s ease-in-out;
         }
-
+        
         li a:hover {
+            color: #218838;
             text-decoration: underline;
         }
-
+        
         /* Dropdown Styling */
         .dropdown {
             position: relative;
             display: inline-block;
             margin-top: 5px;
         }
-
+        
         .dropbtn {
-            background-color: #007BFF;
+            background: linear-gradient(135deg, #007BFF, #0056b3);
             color: white;
-            padding: 10px 15px;
+            padding: 12px 18px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease, transform 0.2s ease;
         }
-
+        
         .dropbtn:hover {
-            background-color: #0056b3;
+            background: linear-gradient(135deg, #0056b3, #003d82);
+            transform: scale(1.05);
         }
-
+        
         .dropdown-content {
             display: none;
             position: absolute;
             background-color: #ffffff;
-            min-width: 150px;
-            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            min-width: 170px;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
             z-index: 1;
-            border-radius: 5px;
+            border-radius: 8px;
             overflow: hidden;
+            transform: translateY(5px);
+            transition: all 0.3s ease-in-out;
         }
-
+        
         .dropdown-content form {
             margin: 0;
         }
-
+        
         .dropdown-content button {
             background-color: transparent;
             border: none;
-            padding: 10px 15px;
+            padding: 14px 18px;
             text-align: left;
             width: 100%;
-            font-size: 14px;
+            font-size: 15px;
             cursor: pointer;
             color: #007BFF;
+            transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
         }
-
+        
         .dropdown-content button:hover {
-            background-color: #f8f9fa;
+            background: #f8f9fa;
+            color: #0056b3;
         }
-
+        
         .dropdown:hover .dropdown-content {
             display: block;
         }
-
+        
         /* Chat Button */
         .btn-chat {
-            background-color: #28a745;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-top: 10px;
             display: inline-block;
+            background: linear-gradient(135deg, #28a745, #218838);
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 12px;
+            transition: background 0.3s ease-in-out, transform 0.2s ease;
         }
-
+        
         .btn-chat:hover {
-            background-color: #218838;
+            background: linear-gradient(135deg, #218838, #1e7e34);
+            transform: scale(1.05);
         }
-
+        
         /* Back to Dashboard Link */
-        a {
+        a.back-link {
             display: block;
             text-align: center;
-            margin: 20px auto;
+            margin: 25px auto;
             color: #007BFF;
             text-decoration: none;
             font-weight: bold;
+            font-size: 17px;
+            transition: color 0.3s ease-in-out;
         }
-
-        a:hover {
+        
+        a.back-link:hover {
+            color: #0056b3;
             text-decoration: underline;
         }
-
+        
         /* Responsive Design */
         @media (max-width: 768px) {
             li {
-                padding: 10px;
-                margin: 10px;
+                padding: 18px;
+                margin: 12px;
             }
-
+        
             .dropbtn {
                 font-size: 14px;
             }
-
+        
             .dropdown-content button {
-                font-size: 12px;
+                font-size: 13px;
+            }
+        
+            .btn-chat {
+                width: 100%;
+                text-align: center;
             }
         }
+        
+
     </style>
 </head>
 <body>
